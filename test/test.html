@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style>
+			html,body{font-size:20px;line-height:1.5;margin:0;padding:0;border:0;}
+			*{margin:0;}
+			input,textarea{border:1px solid #999;border-radius:3px;padding:.25rem;}
+			.main{margin:1rem;font-size:.8rem;}
+			dd{padding:.1rem 0;background:#FFF;}
+			dd *{vertical-align:top;}
+			dd h4{margin:.5rem 0;border-bottom:1px solid #DDD;display:block;}
+			dd p{margin-bottom:.5rem;color:#0044CC;}
+			li img{width:30px;}
+			i{color:#666666;font-style:normal;font-size:14px;line-height:25px;}
+			.red{color:#FF0000;}
+			.green{color:#00FF00;}
+		</style>
+		<script src="../miniVue.js"></script>
+	</head>
+	<body>
+		<div class="main" id="app">
+			<h1>miniVue.js</h1>
+			<br/>
+			<p>Hi All，my name is {{name}} , I'm {{age}} years old. I'm from {{info.city}}</p>
+			<p>{{info.intro}}</p>
+			<dl>
+				<dd>
+					<h4>单向数据绑定</h4>
+					<h6>:value</h6>
+					<input type="text" value="" :value="age"/>
+					<b>事件绑定 @click</b>
+					<button @click="add">SET age++</button>
+					<p>age = {{age}}</p>
+					<h6>:src</h6>
+					<img :src="avatar" />
+					<button @click="func4">Change Img Src</button>
+					<p>avatar = {{avatar}}</p>
+					<h6>:class</h6>
+					<div :class="textClass">绑定了类的文字</div>
+					<button @click="func6">Change Class</button>
+					<p>textClass = {{textClass}}</p>
+				</dd>
+				<dd>
+					<h4>双向数据绑定</h4>
+					<h6>v-model</h6>
+					<input type="text" value="" v-model="name"/> <button @click="func1">Change name</button>
+					<p>name = {{name}}</p>
+					<textarea v-model="info.intro"></textarea> <button @click="func2">Clear Textarea</button>
+					<p>info.intro = {{info.intro}}</p>
+					<select v-model="info.city">
+						<option value="unknow">unknow</option>
+						<option value="GuangZhou">GuangZhou</option>
+						<option value="Beijing">Beijing</option>
+						<option value="Shanghai">Shanghai</option>
+					</select> 
+					<button @click="func3">SET info.city="unknow"</button>
+					<p>info.city = {{info.city}}</p>
+				</dd>
+				<dd>
+					<h4>条件</h4>
+					<h6>v-show</h6>
+					<p v-show="show_text" style="color:#F00;display:inline-block;">Here are the elements that are displayed or hidden with the v-show attribute！</p>
+					<button @click="func5">show or hide</button>
+					<p>show_text = {{show_text}}</p>
+					<div v-show="info.city=='Shanghai'&&name=='Tom'&&19>age">广州</div>
+					<h6>v-if/v-else</h6>
+					<span v-if="info.gender=='male'">男</span>
+					<span v-else>女</span>
+					<button @click="func7">Change info.gender</button>
+					<p>info.gender = {{info.gender}}</p>
+				</dd>
+				<dd>
+					<h4>循环</h4>
+					<h6>v-for</h6>
+					<h3 style="text-align:center;">Age = {{age}}</h3>
+					<ul>
+						<li v-for="it in items"><i>name:</i>{{it.name}} <img :src="it.pic"> <i>num:</i>{{it.num}} </br><i>change name:</i><input type="text" v-model="it.name"/><button @click="add(it.num)">Age + num</button></li>
+					</ul>
+					<button @click="func8">Change Array</button>
+				</dd>
+			</dl>
+			
+		</div>
+	</body>
+<script>
+
+var app=new miniVue({
+	el:"#app",
+	data:{
+		name:"jiaozi",
+		age:30,
+		info:{
+			intro:"Hello World, nice to meet you.",
+			city:"GuangZhou",
+			gender:"male"
+		},
+		avatar:"a1.png",
+		show_text:true,
+		textClass:"red",
+		items:[
+			{name:"one",pic:"a1.png",num:1},
+			{name:"Two",pic:"a2.png",num:2},
+			{name:"Three",pic:"a3.png",num:3},
+			{name:"Four",pic:"a1.png",num:4}]
+	},
+	methods:{
+		add(a){
+			n=parseInt(a)||1;
+			this.age+=n;
+		},
+		func1(){
+			this.name=this.name=="Tom"?"Jiaozi":"Tom";
+		},
+		func2(){
+			this.info.intro=""
+		},
+		func3(){
+			this.info.city="unknow";
+		},
+		func4 : function(){
+			this.avatar=this.avatar=="a1.png"?"a2.png":"a1.png";
+		},
+		func5(){
+			this.show_text=!this.show_text;
+		},
+		func6(){
+			this.textClass=this.textClass=="red"?"green":"red";
+		},
+		func7(){
+			this.info.gender=this.info.gender=="male"?"female":"male";
+		},
+		func8(){
+			var arr=[];
+			var l=2+Math.floor(3*Math.random());
+			for(var i=0;i<l;i++){
+				var t={name:Math.random().toString(36).substr(2,5),
+						pic:"a"+(1+Math.floor(3*Math.random()))+".png",
+						num:(1+Math.floor(10*Math.random()))};
+				arr.push(t);
+			}
+			this.items=arr;
+		}
+	}
+});
+</script>
+</html>
