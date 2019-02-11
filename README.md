@@ -4,7 +4,7 @@
 
 Simple data-driven framework, imitating the principle of Vue.js; only data-driven part, no routing function. Experiments.
 
-Developed by Orchin<793970086@qq.com>
+Developed by Orchin <793970086@qq.com>
 
 Start from 2018.8
 
